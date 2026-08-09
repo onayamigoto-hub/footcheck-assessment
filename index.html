@@ -118,6 +118,7 @@
   .p-entryrow{display:flex;font-size:11pt;border-bottom:1px solid #ccc;}
   .p-entryrow:last-child{border-bottom:none;}
   .p-entryrow .k{width:34%;padding:3px 6px;font-weight:700;background:#f7f7f4;}
+  .p-entryrow.thin .k{font-weight:400;}
   .p-entryrow .v{flex:1;padding:3px 6px;min-height:1.4em;}
   .p-check{display:inline-block;}
   .mark-on{font-weight:700;}
@@ -782,7 +783,7 @@
     [deformEntries.slice(0, deformHalf), deformEntries.slice(deformHalf)].forEach(function(col){
       html += '<div style="flex:1;">';
       col.forEach(function(e){
-        html += '<div class="p-entryrow"><div class="k">'+esc(e.k)+'</div><div class="v">'+e.v+'</div></div>';
+        html += '<div class="p-entryrow thin"><div class="k">'+esc(e.k)+'</div><div class="v">'+e.v+'</div></div>';
       });
       html += '</div>';
     });
@@ -798,17 +799,17 @@
     historyItems.forEach(function(it){
       var val = it.opts ? markRow(null, it.opts, state.history.items[it.label], !!it.multi) : esc(state.history.items[it.label+"__remark"]);
       var extra = (it.remark && it.opts) ? "　"+esc(state.history.items[it.label+"__remark"]) : "";
-      html += '<div class="p-entryrow"><div class="k">'+esc(it.label)+'</div><div class="v">'+val+extra+'</div></div>';
+      html += '<div class="p-entryrow thin"><div class="k">'+esc(it.label)+'</div><div class="v">'+val+extra+'</div></div>';
     });
     html += '</div>';
     html += '<div style="flex:1;"><div class="p-section-title" style="margin-top:0;">セルフケア・生活状況</div>';
     selfcareItems.forEach(function(it){
       var val = it.opts ? markRow(null, it.opts, state.selfcare.items[it.label], !!it.multi) : esc(state.selfcare.items[it.label+"__remark"]);
-      html += '<div class="p-entryrow"><div class="k">'+esc(it.label)+'</div><div class="v">'+val+'</div></div>';
+      html += '<div class="p-entryrow thin"><div class="k">'+esc(it.label)+'</div><div class="v">'+val+'</div></div>';
     });
-    html += '<div class="p-entryrow"><div class="k">リスクとなる仕事・趣味・習慣</div><div class="v">'+esc(state.selfcare.riskText)+'</div></div>';
-    html += '<div class="p-entryrow"><div class="k">自身が気になること</div><div class="v">'+esc(state.selfcare.concernText)+'</div></div>';
-    html += '<div class="p-entryrow"><div class="k">フットケアについて知っていること</div><div class="v">'+esc(state.selfcare.knowledgeText)+'</div></div>';
+    html += '<div class="p-entryrow thin"><div class="k">リスクとなる仕事・趣味・習慣</div><div class="v">'+esc(state.selfcare.riskText)+'</div></div>';
+    html += '<div class="p-entryrow thin"><div class="k">自身が気になること</div><div class="v">'+esc(state.selfcare.concernText)+'</div></div>';
+    html += '<div class="p-entryrow thin"><div class="k">フットケアについて知っていること</div><div class="v">'+esc(state.selfcare.knowledgeText)+'</div></div>';
     html += '</div>';
     html += '</div>';
 
