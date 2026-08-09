@@ -112,28 +112,28 @@
   table.p-table thead th{background:#e7e7e2;font-weight:700;}
   table.p-table td.pg-cell{background:#f2f2ee;font-weight:700;text-align:center;}
   .p-section-title{background:#e7e7e2;border:1px solid #888;font-weight:700;font-size:11pt;padding:2px 8px;margin-top:1mm;}
-  .p-flex2{display:flex;gap:0;}
-  .p-flex2>div{flex:1;border:1px solid #888;border-top:none;}
+  .p-flex2{display:table;table-layout:fixed;width:100%;border-collapse:collapse;}
+  .p-flex2>div{display:table-cell;border:1px solid #888;border-top:none;vertical-align:top;}
   .p-legend{font-size:10.5pt;padding:5px 7px;line-height:1.55;color:#333;border-right:1px solid #888;}
-  .p-entryrow{display:flex;font-size:11pt;border-bottom:1px solid #ccc;}
+  .p-entryrow{display:table;table-layout:fixed;width:100%;font-size:11pt;border-bottom:1px solid #ccc;}
   .p-entryrow:last-child{border-bottom:none;}
-  .p-entryrow .k{width:34%;padding:3px 6px;font-weight:700;background:#f7f7f4;}
+  .p-entryrow .k{display:table-cell;width:34%;padding:3px 6px;font-weight:700;background:#f7f7f4;vertical-align:top;}
   .p-entryrow.thin .k{font-weight:400;}
-  .p-entryrow .v{flex:1;padding:3px 6px;min-height:1.4em;}
+  .p-entryrow .v{display:table-cell;padding:3px 6px;min-height:1.4em;vertical-align:top;}
   .p-check{display:inline-block;}
   .mark-on{font-weight:700;}
   .mark-off{color:#aaa;}
   .p-note{border:1px solid #888;min-height:16mm;padding:4px 6px;font-size:11pt;white-space:pre-wrap;}
-  .p-deform-box{border:1px solid #888;border-top:none;font-size:11pt;display:flex;}
-  .p-deform-col{flex:1;padding:4px 8px;}
+  .p-deform-box{border:1px solid #888;border-top:none;font-size:11pt;display:table;table-layout:fixed;width:100%;}
+  .p-deform-col{display:table-cell;width:50%;padding:4px 8px;vertical-align:top;}
   .p-deform-col:first-child{border-right:1px solid #888;}
   .p-deform-box .row{padding:1.5px 0;}
-  .p-diagram{max-width:100%;max-height:33mm;object-fit:contain;}
+  .p-diagram{max-width:100%;max-height:29mm;object-fit:contain;}
 
   @media print{
     .print-preview-bar{display:none !important;}
     .topbar,.app{display:none !important;}
-    .p-sheet{box-shadow:none;margin:0;max-width:none;padding:0;}
+    .p-sheet{box-shadow:none;margin:0;max-width:none;padding:0;width:180mm;}
   }
   .brand{display:flex;flex-direction:column;gap:2px;margin-right:auto;}
   .brand .eyebrow{
@@ -777,18 +777,18 @@
 
     html += '<div class="p-section-title">皮膚異常・色調（手書き記入欄）</div>';
     html += '<div class="p-flex2">';
-    html += '<div class="p-legend" style="flex:1;">'
+    html += '<div class="p-legend" style="width:43%;">'
       + skinCodes.filter(function(c){return c[0];}).map(function(c){return "<b>"+c[0]+"</b>:"+esc(c[1]);}).join("　")
       + '<br><b>【色調】</b>a赤　b青紫・赤紫　c蒼白　d黒</div>';
-    html += '<div style="flex:1.3;padding:3px;text-align:center;"><img class="p-diagram" src="'+IMG_SKIN_DIAGRAM+'" alt="足裏・足指の図"></div>';
+    html += '<div style="width:57%;padding:3px;text-align:center;"><img class="p-diagram" src="'+IMG_SKIN_DIAGRAM+'" alt="足裏・足指の図"></div>';
     html += '</div>';
 
     html += '<div class="p-section-title">爪の異常（手書き記入欄）</div>';
     html += '<div class="p-flex2">';
-    html += '<div class="p-legend" style="flex:1;">'
+    html += '<div class="p-legend" style="width:43%;">'
       + nailCodes.filter(function(c){return c[0];}).map(function(c){return "<b>"+c[0]+"</b>:"+esc(c[1]);}).join("　")
       + '<br><b>巻き爪：</b>R 1-2-3-4-5　L 1-2-3-4-5　　<b>肥厚爪：</b>R 1-2-3-4-5　L 1-2-3-4-5</div>';
-    html += '<div style="flex:1.3;padding:3px;text-align:center;"><img class="p-diagram" src="'+IMG_NAIL_DIAGRAM+'" alt="爪の図"></div>';
+    html += '<div style="width:57%;padding:3px;text-align:center;"><img class="p-diagram" src="'+IMG_NAIL_DIAGRAM+'" alt="爪の図"></div>';
     html += '</div>';
 
     html += '<div class="p-section-title">足の変形</div>';
@@ -818,14 +818,14 @@
     html += '<div class="p-title">フットチェック・評価表　(2/2)</div>';
 
     html += '<div class="p-flex2">';
-    html += '<div style="flex:1;"><div class="p-section-title" style="margin-top:0;">既往歴・生活背景</div>';
+    html += '<div style="width:50%;"><div class="p-section-title" style="margin-top:0;">既往歴・生活背景</div>';
     historyItems.forEach(function(it){
       var val = it.opts ? markRow(null, it.opts, state.history.items[it.label], !!it.multi) : esc(state.history.items[it.label+"__remark"]);
       var extra = (it.remark && it.opts) ? "　"+esc(state.history.items[it.label+"__remark"]) : "";
       html += '<div class="p-entryrow thin"><div class="k">'+esc(it.label)+'</div><div class="v">'+val+extra+'</div></div>';
     });
     html += '</div>';
-    html += '<div style="flex:1;"><div class="p-section-title" style="margin-top:0;">セルフケア・生活状況</div>';
+    html += '<div style="width:50%;"><div class="p-section-title" style="margin-top:0;">セルフケア・生活状況</div>';
     selfcareItems.forEach(function(it){
       var val = it.opts ? markRow(null, it.opts, state.selfcare.items[it.label], !!it.multi) : esc(state.selfcare.items[it.label+"__remark"]);
       html += '<div class="p-entryrow thin"><div class="k">'+esc(it.label)+'</div><div class="v">'+val+'</div></div>';
