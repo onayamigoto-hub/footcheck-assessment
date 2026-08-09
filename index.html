@@ -104,14 +104,14 @@
   @page{size:A4;margin:11mm 15mm;}
   .p-page{page-break-after:always;}
   .p-page:last-child{page-break-after:auto;}
-  .p-title{font-size:17px;font-weight:700;text-align:center;margin:2mm 0 4mm;}
-  .p-headbar{display:flex;gap:14px;font-size:11pt;border:1px solid #999;border-radius:4px;padding:5px 10px;margin-bottom:4mm;flex-wrap:wrap;}
+  .p-title{font-size:17px;font-weight:700;text-align:center;margin:1.5mm 0 3mm;}
+  .p-headbar{display:flex;gap:14px;font-size:11pt;border:1px solid #999;border-radius:4px;padding:5px 10px;margin-bottom:2.5mm;flex-wrap:wrap;}
   .p-headbar b{font-weight:700;}
-  table.p-table{width:100%;border-collapse:collapse;font-size:11pt;margin-bottom:3.5mm;}
+  table.p-table{width:100%;border-collapse:collapse;font-size:11pt;margin-bottom:2.5mm;}
   table.p-table th,table.p-table td{border:1px solid #888;padding:2.6px 5px;text-align:left;vertical-align:middle;}
   table.p-table thead th{background:#e7e7e2;font-weight:700;}
   table.p-table td.pg-cell{background:#f2f2ee;font-weight:700;text-align:center;}
-  .p-section-title{background:#e7e7e2;border:1px solid #888;font-weight:700;font-size:11pt;padding:3px 8px;margin-top:2mm;}
+  .p-section-title{background:#e7e7e2;border:1px solid #888;font-weight:700;font-size:11pt;padding:2px 8px;margin-top:1mm;}
   .p-flex2{display:flex;gap:0;}
   .p-flex2>div{flex:1;border:1px solid #888;border-top:none;}
   .p-legend{font-size:10.5pt;padding:5px 7px;line-height:1.55;color:#333;border-right:1px solid #888;}
@@ -124,8 +124,10 @@
   .mark-on{font-weight:700;}
   .mark-off{color:#aaa;}
   .p-note{border:1px solid #888;min-height:16mm;padding:4px 6px;font-size:11pt;white-space:pre-wrap;}
-  .p-deform-box{border:1px solid #888;border-top:none;padding:4px 8px;font-size:11pt;}
-  .p-deform-box .row{padding:2.5px 0;}
+  .p-deform-box{border:1px solid #888;border-top:none;font-size:11pt;display:flex;}
+  .p-deform-col{flex:1;padding:4px 8px;}
+  .p-deform-col:first-child{border-right:1px solid #888;}
+  .p-deform-box .row{padding:1.5px 0;}
   .p-diagram{max-width:100%;max-height:33mm;object-fit:contain;}
 
   @media print{
@@ -797,13 +799,17 @@
       }).join("-");
     }
     html += '<div class="p-deform-box">';
+    html += '<div class="p-deform-col">';
     html += '<div class="row">'+deformItem("外反母趾")+'　　'+deformItem("内反小趾")+'</div>';
     html += '<div class="row">'+deformItem("開張足")+'　　'+deformItem("偏平足")+'　　'+deformItem("浮指")+'</div>';
     html += '<div class="row">'+deformItem("ハイアーチ（凹足）")+'</div>';
     html += '<div class="row">'+deformItem("シャルコー関節")+'</div>';
+    html += '</div>';
+    html += '<div class="p-deform-col">';
     html += '<div class="row">'+deformItem("中足骨短縮症")+'</div>';
     html += '<div class="row">クロウトゥ：R '+toeMarks(state.deform.toes.crowR)+'　L '+toeMarks(state.deform.toes.crowL)+'</div>';
     html += '<div class="row">ハンマートゥ：R '+toeMarks(state.deform.toes.hammerR)+'　L '+toeMarks(state.deform.toes.hammerL)+'</div>';
+    html += '</div>';
     html += '</div>';
     html += '</div>'; // page1
 
