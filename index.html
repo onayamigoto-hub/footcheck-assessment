@@ -180,12 +180,14 @@
   .field input[type="text"],
   .field input[type="number"],
   .field input[type="date"],
+  .field select,
   textarea{
     font-family:inherit;font-size:14px;color:var(--ink);
     background:var(--input-bg);border:1px solid var(--input-border);
     border-radius:8px;padding:8px 10px;width:100%;
   }
-  .field input:focus, textarea:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  .field select{appearance:auto;}
+  .field input:focus, .field select:focus, textarea:focus{outline:2px solid var(--accent);outline-offset:1px;}
 
   /* ---------- toggle / chip groups ---------- */
   .chipgroup{display:flex;flex-wrap:wrap;gap:6px;}
@@ -426,7 +428,7 @@
     {id:"age", label:"年齢", type:"number"},
     {id:"gender", label:"性別", type:"toggle", options:["男","女"]},
     {id:"date", label:"実施日", type:"date"},
-    {id:"staff", label:"担当者", type:"text"}
+    {id:"staff", label:"担当者", type:"select", options:["西野 みはる","川本 美香","松岡 綾","河野 貴子","山内 千由紀","谷口 由里","村山 あすか"]}
   ];
   (function renderHeader(){
     var wrap = document.getElementById("headerFields");
@@ -452,6 +454,19 @@
           g.appendChild(b);
         });
         field.appendChild(g);
+      } else if(f.type === "select"){
+        var sel = document.createElement("select");
+        sel.id = "hdr_"+f.id;
+        var blankOpt = document.createElement("option");
+        blankOpt.value = ""; blankOpt.textContent = "選択してください";
+        sel.appendChild(blankOpt);
+        f.options.forEach(function(opt){
+          var o = document.createElement("option");
+          o.value = opt; o.textContent = opt;
+          sel.appendChild(o);
+        });
+        sel.addEventListener("change", function(){ state.header[f.id] = sel.value; });
+        field.appendChild(sel);
       } else {
         var inp = document.createElement("input");
         inp.type = f.type; inp.id = "hdr_"+f.id;
