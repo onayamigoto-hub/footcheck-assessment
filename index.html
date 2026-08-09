@@ -124,6 +124,8 @@
   .mark-on{font-weight:700;}
   .mark-off{color:#aaa;}
   .p-note{border:1px solid #888;min-height:16mm;padding:4px 6px;font-size:11pt;white-space:pre-wrap;}
+  .p-deform-box{border:1px solid #888;border-top:none;padding:4px 8px;font-size:11pt;}
+  .p-deform-box .row{padding:2.5px 0;}
   .p-diagram{max-width:100%;max-height:33mm;object-fit:contain;}
 
   @media print{
@@ -773,20 +775,20 @@
     html += '</div>';
 
     html += '<div class="p-section-title">足の変形</div>';
-    html += '<div class="p-flex2">';
-    var deformEntries = deformToggleItems.map(function(name){
-      return {k: name, v: markRow(null,["有","無"], state.deform.items[name], false)};
-    }).concat(deformToeItems.map(function(d){
-      return {k: d.label, v: esc(state.deform.toes[d.key].join(", "))};
-    }));
-    var deformHalf = Math.ceil(deformEntries.length / 2);
-    [deformEntries.slice(0, deformHalf), deformEntries.slice(deformHalf)].forEach(function(col){
-      html += '<div style="flex:1;">';
-      col.forEach(function(e){
-        html += '<div class="p-entryrow thin"><div class="k">'+esc(e.k)+'</div><div class="v">'+e.v+'</div></div>';
-      });
-      html += '</div>';
-    });
+    function deformItem(name){ return esc(name)+"："+markRow(null,["有","無"], state.deform.items[name], false); }
+    function toeMarks(selected){
+      return ["1","2","3","4","5"].map(function(n){
+        return '<span class="'+(selected.indexOf(n)>=0 ? "mark-on":"mark-off")+'">'+n+'</span>';
+      }).join("-");
+    }
+    html += '<div class="p-deform-box">';
+    html += '<div class="row">'+deformItem("外反母趾")+'　　'+deformItem("内反小趾")+'</div>';
+    html += '<div class="row">'+deformItem("開張足")+'　　'+deformItem("偏平足")+'　　'+deformItem("浮指")+'</div>';
+    html += '<div class="row">'+deformItem("ハイアーチ（凹足）")+'</div>';
+    html += '<div class="row">'+deformItem("シャルコー関節")+'</div>';
+    html += '<div class="row">'+deformItem("中足骨短縮症")+'</div>';
+    html += '<div class="row">クロウトゥ：R '+toeMarks(state.deform.toes.crowR)+'　L '+toeMarks(state.deform.toes.crowL)+'</div>';
+    html += '<div class="row">ハンマートゥ：R '+toeMarks(state.deform.toes.hammerR)+'　L '+toeMarks(state.deform.toes.hammerL)+'</div>';
     html += '</div>';
     html += '</div>'; // page1
 
