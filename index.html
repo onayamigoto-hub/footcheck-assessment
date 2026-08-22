@@ -293,8 +293,8 @@
 <div id="printRoot">
   <div class="print-preview-bar">
     <button class="btn-back" id="btnPrintBack" type="button">← 入力画面に戻る</button>
-    <span><b>Ctrl+P</b>（Macは <b>Cmd+P</b>）を押すか、右のボタンで印刷・PDF保存してください</span>
-    <button class="btn-do-print" id="btnDoPrint" type="button" style="margin-left:auto;">印刷 / PDF保存</button>
+    <span>内容を確認したら、右のボタンでPDFを保存してください</span>
+    <button class="btn-do-print" id="btnDoPrint" type="button" style="margin-left:auto;">PDFを保存</button>
   </div>
   <div id="printSheetWrap"></div>
 </div>
@@ -401,6 +401,7 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -873,8 +874,48 @@
 
   document.getElementById("btnPrint").addEventListener("click", enterPrintPreview);
   document.getElementById("btnPrintBack").addEventListener("click", exitPrintPreview);
+
   document.getElementById("btnDoPrint").addEventListener("click", function(){
-    window.print();
+    var btn = this;
+    var sheet = document.querySelector("#printSheetWrap .p-sheet");
+    if(!sheet){ return; }
+    if(typeof html2pdf === "undefined"){
+      showStatus("PDF作成用の部品が読み込めませんでした。通信状態をご確認のうえ、もう一度お試しください。", true);
+      return;
+    }
+    var origText = btn.textContent;
+    btn.textContent = "作成中…";
+    btn.disabled = true;
+
+    /* 画面の幅に関係なく常にA4基準の見た目でキャプチャするため、一時的に固定幅にする */
+    var prevStyle = sheet.getAttribute("style") || "";
+    sheet.style.width = "794px";
+    sheet.style.maxWidth = "794px";
+    sheet.style.margin = "0";
+
+    var opt = {
+      margin: 0,
+      filename: "フットチェック評価表.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ["css", "legacy"] }
+    };
+
+    function restore(){
+      sheet.setAttribute("style", prevStyle);
+    }
+
+    html2pdf().set(opt).from(sheet).save().then(function(){
+      restore();
+      btn.textContent = origText;
+      btn.disabled = false;
+    }).catch(function(err){
+      restore();
+      btn.textContent = origText;
+      btn.disabled = false;
+      showStatus("PDFの作成に失敗しました：" + String(err && err.message || err), true);
+    });
   });
 
 })();
